@@ -29,7 +29,7 @@ const SignUpPage = () => {
         return UserService.signupUser(data);
     });
 
-    const { data, isLoading, isSuccess, isError, error } = mutation;
+    const { data, isPending, isSuccess, isError, error } = mutation;
     const handleNavigateSignIn = () => {
         navigate("/sign-in");
     };
@@ -138,7 +138,7 @@ const SignUpPage = () => {
                     {data?.status === "ERR" && (
                         <span style={{ color: "red" }}>{data?.message}</span>
                     )}
-                    <Loading isLoading={isLoading}>
+                    <Loading isLoading={isPending}>
                         <ButtonComponent
                             disabled={
                                 !email.length ||

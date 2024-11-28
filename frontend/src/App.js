@@ -3,13 +3,13 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DefaultComponent from "./components/DefaultComponent/DefaultComponent";
 import { routes } from "./routes";
 import { isJsonString } from "./utils";
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import * as UserService from "./services/UserService";
 import { useDispatch, useSelector } from "react-redux";
 import { resetUser, updateUser } from "./redux/slices/userSlice";
 import Loading from "./components/LoadingComponent/LoadingComponent";
 
-function App() {
+const App = () => {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
     const user = useSelector((state) => state.user);
@@ -29,7 +29,7 @@ function App() {
         let decoded = {};
         if (storageData && isJsonString(storageData) && !user?.access_token) {
             storageData = JSON.parse(storageData);
-            decoded = jwt_decode(storageData);
+            decoded = jwtDecode(storageData);
         }
         return { decoded, storageData };
     };
@@ -40,7 +40,7 @@ function App() {
             const { decoded } = handleDecoded();
             let storageRefreshToken = localStorage.getItem("refresh_token");
             const refreshToken = JSON.parse(storageRefreshToken);
-            const decodedRefreshToken = jwt_decode(refreshToken);
+            const decodedRefreshToken = jwtDecode(refreshToken);
             if (decoded?.exp < currentTime.getTime() / 1000) {
                 console.log(currentTime.getTime() / 1000);
                 if (decodedRefreshToken?.exp > currentTime.getTime() / 1000) {
@@ -99,6 +99,6 @@ function App() {
             </Loading>
         </div>
     );
-}
+};
 
 export default App;
