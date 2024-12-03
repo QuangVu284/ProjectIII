@@ -362,7 +362,7 @@ const AdminProduct = () => {
 
     useEffect(() => {
         if (isSuccess && data?.status === "OK") {
-            message.success();
+            message.success("Tạo sản phẩm thành công");
             handleCancel();
         } else if (isError) {
             message.error();
