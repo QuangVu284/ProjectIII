@@ -17,7 +17,7 @@ const initialState = {
     isSucessOrder: false,
 };
 
-export const orderSlide = createSlice({
+export const orderSlice = createSlice({
     name: "order",
     initialState,
     reducers: {
@@ -30,7 +30,6 @@ export const orderSlide = createSlice({
                 if (itemOrder.amount <= itemOrder.countInstock) {
                     itemOrder.amount += orderItem?.amount;
                     state.isSucessOrder = true;
-                    state.isErrorOrder = false;
                 }
             } else {
                 state.orderItems.push(orderItem);
@@ -112,6 +111,6 @@ export const {
     removeAllOrderProduct,
     selectedOrder,
     resetOrder,
-} = orderSlide.actions;
+} = orderSlice.actions;
 
-export default orderSlide.reducer;
+export default orderSlice.reducer;

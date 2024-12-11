@@ -25,7 +25,6 @@ import { addOrderProduct, resetOrder } from "../../redux/slices/orderSlice";
 import { convertPrice } from "../../utils";
 import { useEffect } from "react";
 import { message } from "antd";
-import { useMemo } from "react";
 
 const ProductDetailsComponent = ({ idProduct }) => {
     const [numProduct, setNumProduct] = useState(1);
@@ -83,7 +82,7 @@ const ProductDetailsComponent = ({ idProduct }) => {
         }
     };
 
-    const { isLoading, data: productDetails } = useQuery({
+    const { isPending, data: productDetails } = useQuery({
         queryKey: ["productDetails", idProduct],
         queryFn: fetchGetDetailsProduct,
         enabled: !!idProduct,
@@ -130,13 +129,12 @@ const ProductDetailsComponent = ({ idProduct }) => {
     };
 
     return (
-        <Loading isLoading={isLoading}>
+        <Loading isLoading={isPending}>
             <Row
                 style={{
                     padding: "16px",
                     background: "#fff",
-                    borderRadius: "4px",
-                    height: "100%",
+                    borderRadius: "10px",
                 }}
             >
                 <Col
@@ -255,7 +253,7 @@ const ProductDetailsComponent = ({ idProduct }) => {
                                 }
                             >
                                 <MinusOutlined
-                                    style={{ color: "#000", fontSize: "20px" }}
+                                    style={{ color: "#000", fontSize: "16px" }}
                                 />
                             </button>
                             <WrapperInputNumber
@@ -281,7 +279,7 @@ const ProductDetailsComponent = ({ idProduct }) => {
                                 }
                             >
                                 <PlusOutlined
-                                    style={{ color: "#000", fontSize: "20px" }}
+                                    style={{ color: "#000", fontSize: "16px" }}
                                 />
                             </button>
                         </WrapperQualityProduct>
@@ -312,8 +310,14 @@ const ProductDetailsComponent = ({ idProduct }) => {
                                 }}
                             ></ButtonComponent>
                             {errorLimitOrder && (
-                                <div style={{ color: "red" }}>
-                                    San pham het hang
+                                <div
+                                    style={{
+                                        color: "red",
+                                        marginTop: "10px",
+                                        marginLeft: "5px",
+                                    }}
+                                >
+                                    Sản phẩm đã hết hàng
                                 </div>
                             )}
                         </div>

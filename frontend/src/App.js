@@ -73,7 +73,7 @@ const App = () => {
     };
 
     return (
-        <div style={{ height: "100vh", width: "100%" }}>
+        <div style={{ height: "100%", width: "100%" }}>
             <Loading isLoading={isLoading}>
                 <Router>
                     <Routes>
