@@ -9,7 +9,7 @@ import {
 import AdminUser from "../../components/AdminUser/AdminUser";
 import AdminProduct from "../../components/AdminProduct/AdminProduct";
 import AdminOrder from "../../components/AdminOrder/AdminOrder";
-// import * as OrderService from '../../services/OrderService'
+import * as OrderService from "../../services/OrderService";
 import * as ProductService from "../../services/ProductService";
 import * as UserService from "../../services/UserService";
 
@@ -29,10 +29,10 @@ const AdminPage = () => {
     ];
 
     const [keySelected, setKeySelected] = useState("");
-    // const getAllOrder = async () => {
-    //   const res = await OrderService.getAllOrder(user?.access_token)
-    //   return {data: res?.data, key: 'orders'}
-    // }
+    const getAllOrder = async () => {
+        const res = await OrderService.getAllOrder(user?.access_token);
+        return { data: res?.data, key: "orders" };
+    };
 
     const getAllProducts = async () => {
         const res = await ProductService.getAllProduct();
@@ -54,7 +54,11 @@ const AdminPage = () => {
                 staleTime: 1000 * 60,
             },
             { queryKey: ["users"], queryFn: getAllUsers, staleTime: 1000 * 60 },
-            // {queryKey: ['orders'], queryFn: getAllOrder, staleTime: 1000 * 60},
+            {
+                queryKey: ["orders"],
+                queryFn: getAllOrder,
+                staleTime: 1000 * 60,
+            },
         ],
     });
     const memoCount = useMemo(() => {
@@ -108,7 +112,6 @@ const AdminPage = () => {
                     onClick={handleOnCLick}
                 />
                 <div style={{ flex: 1, padding: "15px 0 15px 15px" }}>
-                    {/* <Loading isLoading={memoCount && Object.keys(memoCount) &&  Object.keys(memoCount).length !== 3}> */}
                     {!keySelected && (
                         <CustomizedContent
                             data={memoCount}
@@ -116,7 +119,7 @@ const AdminPage = () => {
                             setKeySelected={setKeySelected}
                         />
                     )}
-                    {/* </Loading> */}
+
                     {renderPage(keySelected)}
                 </div>
             </div>
