@@ -23,6 +23,7 @@ import { message } from "antd";
 import { updateUser } from "../../redux/slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import { removeAllOrderProduct } from "../../redux/slices/orderSlice";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 const PaymentPage = () => {
     const order = useSelector((state) => state.order);
@@ -234,288 +235,337 @@ const PaymentPage = () => {
 
     return (
         <div style={{ background: "#f5f5fa", with: "100%", height: "100vh" }}>
-            <Loading isLoading={isLoadingAddOrder}>
-                <div
-                    style={{
-                        height: "100%",
-                        width: "1270px",
-                        margin: "0 auto",
-                    }}
-                >
-                    <h3>Thanh toán</h3>
-                    <div style={{ display: "flex", justifyContent: "center" }}>
-                        <WrapperLeft>
-                            <WrapperInfo>
-                                <div>
-                                    <Lable>Chọn phương thức giao hàng</Lable>
-                                    <WrapperRadio
-                                        onChange={handleDilivery}
-                                        value={delivery}
-                                    >
-                                        <Radio value="fast">
-                                            <span
-                                                style={{
-                                                    color: "#ea8500",
-                                                    fontWeight: "bold",
-                                                }}
-                                            >
-                                                FAST
-                                            </span>{" "}
-                                            Giao hàng tiết kiệm
-                                        </Radio>
-                                        <Radio value="gojek">
-                                            <span
-                                                style={{
-                                                    color: "#ea8500",
-                                                    fontWeight: "bold",
-                                                }}
-                                            >
-                                                GO_JEK
-                                            </span>{" "}
-                                            Giao hàng tiết kiệm
-                                        </Radio>
-                                    </WrapperRadio>
-                                </div>
-                            </WrapperInfo>
-                            <WrapperInfo>
-                                <div>
-                                    <Lable>Chọn phương thức thanh toán</Lable>
-                                    <WrapperRadio
-                                        onChange={handlePayment}
-                                        value={payment}
-                                    >
-                                        <Radio value="later_money">
-                                            {" "}
-                                            Thanh toán tiền mặt khi nhận hàng
-                                        </Radio>
-                                        <Radio value="paypal">
-                                            {" "}
-                                            Thanh toán tiền bằng paypal
-                                        </Radio>
-                                    </WrapperRadio>
-                                </div>
-                            </WrapperInfo>
-                        </WrapperLeft>
-                        <WrapperRight>
-                            <div style={{ width: "100%" }}>
+            <PayPalScriptProvider
+                options={{
+                    "client-id":
+                        "AQkdzp6wK9ewGli4VP2MOpMqLMemcNA1qQG2ubSqKo0eoEeaSx4fQepftOZPGThGf-1q4fy1yXS_Dp9h",
+                }}
+            >
+                <Loading isLoading={isLoadingAddOrder}>
+                    <div
+                        style={{
+                            height: "100%",
+                            width: "1270px",
+                            margin: "0 auto",
+                        }}
+                    >
+                        <h3>Thanh toán</h3>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <WrapperLeft>
                                 <WrapperInfo>
                                     <div>
-                                        <span>Địa chỉ: </span>
-                                        <span style={{ fontWeight: "bold" }}>
-                                            {`${user?.address} ${user?.city}`}{" "}
-                                        </span>
-                                        <span
-                                            onClick={handleChangeAddress}
-                                            style={{
-                                                color: "#9255FD",
-                                                cursor: "pointer",
-                                            }}
+                                        <Lable>
+                                            Chọn phương thức giao hàng
+                                        </Lable>
+                                        <WrapperRadio
+                                            onChange={handleDilivery}
+                                            value={delivery}
                                         >
-                                            Thay đổi
-                                        </span>
+                                            <Radio value="fast">
+                                                <span
+                                                    style={{
+                                                        color: "#ea8500",
+                                                        fontWeight: "bold",
+                                                    }}
+                                                >
+                                                    FAST
+                                                </span>{" "}
+                                                Giao hàng tiết kiệm
+                                            </Radio>
+                                            <Radio value="gojek">
+                                                <span
+                                                    style={{
+                                                        color: "#ea8500",
+                                                        fontWeight: "bold",
+                                                    }}
+                                                >
+                                                    GO_JEK
+                                                </span>{" "}
+                                                Giao hàng tiết kiệm
+                                            </Radio>
+                                        </WrapperRadio>
                                     </div>
                                 </WrapperInfo>
                                 <WrapperInfo>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                        }}
-                                    >
-                                        <span>Tạm tính</span>
-                                        <span
-                                            style={{
-                                                color: "#000",
-                                                fontSize: "14px",
-                                                fontWeight: "bold",
-                                            }}
+                                    <div>
+                                        <Lable>
+                                            Chọn phương thức thanh toán
+                                        </Lable>
+                                        <WrapperRadio
+                                            onChange={handlePayment}
+                                            value={payment}
                                         >
-                                            {convertPrice(priceMemo)}
-                                        </span>
-                                    </div>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                        }}
-                                    >
-                                        <span>Giảm giá</span>
-                                        <span
-                                            style={{
-                                                color: "#000",
-                                                fontSize: "14px",
-                                                fontWeight: "bold",
-                                            }}
-                                        >
-                                            {convertPrice(priceDiscountMemo)}
-                                        </span>
-                                    </div>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                        }}
-                                    >
-                                        <span>Phí giao hàng</span>
-                                        <span
-                                            style={{
-                                                color: "#000",
-                                                fontSize: "14px",
-                                                fontWeight: "bold",
-                                            }}
-                                        >
-                                            {convertPrice(diliveryPriceMemo)}
-                                        </span>
+                                            <Radio value="later_money">
+                                                {" "}
+                                                Thanh toán tiền mặt khi nhận
+                                                hàng
+                                            </Radio>
+                                            <Radio value="paypal">
+                                                {" "}
+                                                Thanh toán tiền bằng paypal
+                                            </Radio>
+                                        </WrapperRadio>
                                     </div>
                                 </WrapperInfo>
-                                <WrapperTotal>
-                                    <span>Tổng tiền</span>
-                                    <span
-                                        style={{
-                                            display: "flex",
-                                            flexDirection: "column",
-                                        }}
-                                    >
-                                        <span
+                            </WrapperLeft>
+                            <WrapperRight>
+                                <div style={{ width: "100%" }}>
+                                    <WrapperInfo>
+                                        <div>
+                                            <span>Địa chỉ: </span>
+                                            <span
+                                                style={{ fontWeight: "bold" }}
+                                            >
+                                                {`${user?.address} ${user?.city}`}{" "}
+                                            </span>
+                                            <span
+                                                onClick={handleChangeAddress}
+                                                style={{
+                                                    color: "#9255FD",
+                                                    cursor: "pointer",
+                                                }}
+                                            >
+                                                Thay đổi
+                                            </span>
+                                        </div>
+                                    </WrapperInfo>
+                                    <WrapperInfo>
+                                        <div
                                             style={{
-                                                color: "rgb(254, 56, 52)",
-                                                fontSize: "24px",
-                                                fontWeight: "bold",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
                                             }}
                                         >
-                                            {convertPrice(totalPriceMemo)}
-                                        </span>
-                                        <span
+                                            <span>Tạm tính</span>
+                                            <span
+                                                style={{
+                                                    color: "#000",
+                                                    fontSize: "14px",
+                                                    fontWeight: "bold",
+                                                }}
+                                            >
+                                                {convertPrice(priceMemo)}
+                                            </span>
+                                        </div>
+                                        <div
                                             style={{
-                                                color: "#000",
-                                                fontSize: "11px",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
                                             }}
                                         >
-                                            (Đã bao gồm VAT nếu có)
+                                            <span>Giảm giá</span>
+                                            <span
+                                                style={{
+                                                    color: "#000",
+                                                    fontSize: "14px",
+                                                    fontWeight: "bold",
+                                                }}
+                                            >
+                                                {convertPrice(
+                                                    priceDiscountMemo
+                                                )}
+                                            </span>
+                                        </div>
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                            }}
+                                        >
+                                            <span>Phí giao hàng</span>
+                                            <span
+                                                style={{
+                                                    color: "#000",
+                                                    fontSize: "14px",
+                                                    fontWeight: "bold",
+                                                }}
+                                            >
+                                                {convertPrice(
+                                                    diliveryPriceMemo
+                                                )}
+                                            </span>
+                                        </div>
+                                    </WrapperInfo>
+                                    <WrapperTotal>
+                                        <span>Tổng tiền</span>
+                                        <span
+                                            style={{
+                                                display: "flex",
+                                                flexDirection: "column",
+                                            }}
+                                        >
+                                            <span
+                                                style={{
+                                                    color: "rgb(254, 56, 52)",
+                                                    fontSize: "24px",
+                                                    fontWeight: "bold",
+                                                }}
+                                            >
+                                                {convertPrice(totalPriceMemo)}
+                                            </span>
+                                            <span
+                                                style={{
+                                                    color: "#000",
+                                                    fontSize: "11px",
+                                                }}
+                                            >
+                                                (Đã bao gồm VAT nếu có)
+                                            </span>
                                         </span>
-                                    </span>
-                                </WrapperTotal>
-                            </div>
-                            {payment === "paypal" && sdkReady ? (
-                                <div style={{ width: "320px" }}>
-                                    {/* <PayPalButton
-                    amount={Math.round(totalPriceMemo / 30000)}
-                    // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
-                    onSuccess={onSuccessPaypal}
-                    onError={() => {
-                      alert('Erroe')
-                    }}
-                  /> */}
+                                    </WrapperTotal>
                                 </div>
-                            ) : (
-                                <ButtonComponent
-                                    onClick={() => handleAddOrder()}
-                                    size={40}
-                                    styleButton={{
-                                        background: "rgb(255, 57, 69)",
-                                        height: "48px",
-                                        width: "320px",
-                                        border: "none",
-                                        borderRadius: "4px",
-                                    }}
-                                    textbutton={"Đặt hàng"}
-                                    styleTextButton={{
-                                        color: "#fff",
-                                        fontSize: "15px",
-                                        fontWeight: "700",
-                                    }}
-                                ></ButtonComponent>
-                            )}
-                        </WrapperRight>
+                                {payment === "paypal" ? (
+                                    <div style={{ width: "320px" }}>
+                                        <PayPalButtons
+                                            style={{ layout: "vertical" }}
+                                            createOrder={(data, actions) => {
+                                                return actions.order.create({
+                                                    purchase_units: [
+                                                        {
+                                                            amount: {
+                                                                value: Math.round(
+                                                                    totalPriceMemo /
+                                                                        30000
+                                                                ).toString(),
+                                                            },
+                                                        },
+                                                    ],
+                                                });
+                                            }}
+                                            onApprove={(data, actions) => {
+                                                return actions.order
+                                                    .capture()
+                                                    .then((details) => {
+                                                        onSuccessPaypal(
+                                                            details,
+                                                            data
+                                                        );
+                                                    });
+                                            }}
+                                            onError={() => {
+                                                message.error(
+                                                    "Có lỗi xảy ra với PayPal!"
+                                                );
+                                            }}
+                                        />
+                                    </div>
+                                ) : (
+                                    <ButtonComponent
+                                        onClick={() => handleAddOrder()}
+                                        size={40}
+                                        styleButton={{
+                                            background: "rgb(255, 57, 69)",
+                                            height: "48px",
+                                            width: "320px",
+                                            border: "none",
+                                            borderRadius: "4px",
+                                        }}
+                                        textbutton={"Đặt hàng"}
+                                        styleTextButton={{
+                                            color: "#fff",
+                                            fontSize: "15px",
+                                            fontWeight: "700",
+                                        }}
+                                    ></ButtonComponent>
+                                )}
+                            </WrapperRight>
+                        </div>
                     </div>
-                </div>
-                <ModalComponent
-                    title="Cập nhật thông tin giao hàng"
-                    open={isOpenModalUpdateInfo}
-                    onCancel={handleCancleUpdate}
-                    onOk={handleUpdateInforUser}
-                >
-                    <Loading isLoading={isPending}>
-                        <Form
-                            name="basic"
-                            labelCol={{ span: 4 }}
-                            wrapperCol={{ span: 20 }}
-                            // onFinish={onUpdateUser}
-                            autoComplete="on"
-                            form={form}
-                        >
-                            <Form.Item
-                                label="Name"
-                                name="name"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: "Please input your name!",
-                                    },
-                                ]}
+                    <ModalComponent
+                        title="Cập nhật thông tin giao hàng"
+                        open={isOpenModalUpdateInfo}
+                        onCancel={handleCancleUpdate}
+                        onOk={handleUpdateInforUser}
+                    >
+                        <Loading isLoading={isPending}>
+                            <Form
+                                name="basic"
+                                labelCol={{ span: 4 }}
+                                wrapperCol={{ span: 20 }}
+                                // onFinish={onUpdateUser}
+                                autoComplete="on"
+                                form={form}
                             >
-                                <InputComponent
-                                    value={stateUserDetails["name"]}
-                                    onChange={handleOnchangeDetails}
+                                <Form.Item
+                                    label="Name"
                                     name="name"
-                                />
-                            </Form.Item>
-                            <Form.Item
-                                label="City"
-                                name="city"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: "Please input your city!",
-                                    },
-                                ]}
-                            >
-                                <InputComponent
-                                    value={stateUserDetails["city"]}
-                                    onChange={handleOnchangeDetails}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: "Please input your name!",
+                                        },
+                                    ]}
+                                >
+                                    <InputComponent
+                                        value={stateUserDetails["name"]}
+                                        onChange={handleOnchangeDetails}
+                                        name="name"
+                                    />
+                                </Form.Item>
+                                <Form.Item
+                                    label="City"
                                     name="city"
-                                />
-                            </Form.Item>
-                            <Form.Item
-                                label="Phone"
-                                name="phone"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: "Please input your  phone!",
-                                    },
-                                ]}
-                            >
-                                <InputComponent
-                                    value={stateUserDetails.phone}
-                                    onChange={handleOnchangeDetails}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: "Please input your city!",
+                                        },
+                                    ]}
+                                >
+                                    <InputComponent
+                                        value={stateUserDetails["city"]}
+                                        onChange={handleOnchangeDetails}
+                                        name="city"
+                                    />
+                                </Form.Item>
+                                <Form.Item
+                                    label="Phone"
                                     name="phone"
-                                />
-                            </Form.Item>
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Please input your  phone!",
+                                        },
+                                    ]}
+                                >
+                                    <InputComponent
+                                        value={stateUserDetails.phone}
+                                        onChange={handleOnchangeDetails}
+                                        name="phone"
+                                    />
+                                </Form.Item>
 
-                            <Form.Item
-                                label="Adress"
-                                name="address"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: "Please input your  address!",
-                                    },
-                                ]}
-                            >
-                                <InputComponent
-                                    value={stateUserDetails.address}
-                                    onChange={handleOnchangeDetails}
+                                <Form.Item
+                                    label="Adress"
                                     name="address"
-                                />
-                            </Form.Item>
-                        </Form>
-                    </Loading>
-                </ModalComponent>
-            </Loading>
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Please input your  address!",
+                                        },
+                                    ]}
+                                >
+                                    <InputComponent
+                                        value={stateUserDetails.address}
+                                        onChange={handleOnchangeDetails}
+                                        name="address"
+                                    />
+                                </Form.Item>
+                            </Form>
+                        </Loading>
+                    </ModalComponent>
+                </Loading>
+            </PayPalScriptProvider>
         </div>
     );
 };
