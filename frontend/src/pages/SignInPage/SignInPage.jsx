@@ -18,6 +18,7 @@ import { jwtDecode } from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../redux/slices/userSlice";
 import { message } from "antd";
+import { GoogleLogin } from "@react-oauth/google";
 
 const SignInPage = () => {
     const [isShowPassword, setIsShowPassword] = useState(false);
@@ -30,6 +31,19 @@ const SignInPage = () => {
 
     const mutation = useMutationHooks((data) => UserService.loginUser(data));
     const { data, isPending, isSuccess, isError, error } = mutation;
+
+    const mutationLoginGg = useMutationHooks((data) =>
+        UserService.loginWithGoogle(data)
+    );
+    const {
+        data: dataLoginGG,
+        isLoading: isLoadingGG,
+        isSuccess: isSuccessGG,
+        isError: isErrorGG,
+        error: errorGG,
+    } = mutationLoginGg;
+
+    console.log("dataLoginGG", dataLoginGG, isSuccessGG);
 
     useEffect(() => {
         if (isSuccess) {
@@ -58,6 +72,36 @@ const SignInPage = () => {
         }
     }, [isSuccess, isError, error]);
 
+    useEffect(() => {
+        if (isSuccessGG) {
+            message.success("Đăng nhập Google thành công!");
+            if (location?.state) {
+                navigate(location?.state);
+            } else {
+                navigate("/");
+            }
+            localStorage.setItem(
+                "access_token",
+                JSON.stringify(dataLoginGG?.access_token)
+            );
+            localStorage.setItem(
+                "refresh_token",
+                JSON.stringify(dataLoginGG?.refresh_token)
+            );
+            if (dataLoginGG?.access_token) {
+                const decoded = jwtDecode(dataLoginGG?.access_token);
+                if (decoded?.id) {
+                    handleGetDetailsUser(
+                        decoded?.id,
+                        dataLoginGG?.access_token
+                    );
+                }
+            }
+        } else if (isErrorGG) {
+            message.error(errorGG.message);
+        }
+    }, [isSuccessGG, isErrorGG, errorGG]);
+
     const handleGetDetailsUser = async (id, token) => {
         const storage = localStorage.getItem("refresh_token");
         const refreshToken = JSON.parse(storage);
@@ -84,6 +128,10 @@ const SignInPage = () => {
             email,
             password,
         });
+    };
+
+    const handleLoginWithGoogle = async (credentialResponse) => {
+        mutationLoginGg.mutate(credentialResponse?.credential);
     };
 
     return (
@@ -161,9 +209,14 @@ const SignInPage = () => {
                             }}
                         ></ButtonComponent>
                     </Loading>
-                    <p>
-                        <WrapperTextLight>Quên mật khẩu?</WrapperTextLight>
-                    </p>
+
+                    <div style={{ width: "100%" }}>
+                        <GoogleLogin
+                            onSuccess={handleLoginWithGoogle}
+                            onError={(error) => message.error(error)}
+                        />
+                    </div>
+
                     <p>
                         Chưa có tài khoản?{" "}
                         <WrapperTextLight onClick={handleNavigateSignUp}>

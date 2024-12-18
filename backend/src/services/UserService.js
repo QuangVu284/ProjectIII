@@ -1,6 +1,11 @@
 const User = require("../models/UserModel");
 const bcrypt = require("bcrypt");
 const { generateAcessToken, generateRefreshToken } = require("./JwtService");
+const { OAuth2Client } = require("google-auth-library");
+const dotenv = require("dotenv");
+dotenv.config();
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const createUser = (newUser) => {
     return new Promise(async (resolve, reject) => {
@@ -72,6 +77,52 @@ const loginUser = (userLogin) => {
             return resolve({
                 status: "OK",
                 message: "SUCCESS",
+                access_token,
+                refresh_token,
+            });
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
+const loginWithGoogle = (googleToken) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const ticket = await client.verifyIdToken({
+                idToken: googleToken,
+                audience: process.env.GOOGLE_CLIENT_ID,
+            });
+
+            const { email, name, picture } = ticket.getPayload();
+
+            let user = await User.findOne({ email });
+
+            if (!user) {
+                const randomPassword = Math.random().toString(36).slice(-8);
+                const hashedPassword = bcrypt.hashSync(randomPassword, 10);
+
+                user = await User.create({
+                    email,
+                    name,
+                    password: hashedPassword, // Lưu mật khẩu để đảm bảo đồng nhất
+                    avatar: picture,
+                });
+                console.log("user", user);
+            }
+
+            const access_token = await generateAcessToken({
+                id: user.id,
+                isAdmin: user.isAdmin,
+            });
+            const refresh_token = await generateRefreshToken({
+                id: user.id,
+                isAdmin: user.isAdmin,
+            });
+
+            resolve({
+                status: "OK",
+                message: "Đăng nhập Google thành công!",
                 access_token,
                 refresh_token,
             });
@@ -194,4 +245,5 @@ module.exports = {
     getAllUser,
     deleteUser,
     deleteManyUser,
+    loginWithGoogle,
 };

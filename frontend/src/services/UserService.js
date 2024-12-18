@@ -14,6 +14,18 @@ export const loginUser = async (data) => {
     }
 };
 
+export const loginWithGoogle = async (tokenId) => {
+    try {
+        const res = await axios.post(
+            `${process.env.REACT_APP_API_URL}/user/login-with-google`,
+            { tokenId }
+        );
+        return res.data;
+    } catch (err) {
+        throw new Error(err.response.data.message);
+    }
+};
+
 export const signupUser = async (data) => {
     try {
         const res = await axios.post(
