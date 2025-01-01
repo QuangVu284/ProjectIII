@@ -6,7 +6,14 @@ const ProductDetailsPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     return (
-        <div style={{ width: "100%", background: "#efefef", padding: "10px" }}>
+        <div
+            style={{
+                width: "100%",
+                height: "100%",
+                background: "#efefef",
+                padding: "10px",
+            }}
+        >
             <div style={{ width: "1270px", height: "100%", margin: "0 auto" }}>
                 <h5>
                     <span

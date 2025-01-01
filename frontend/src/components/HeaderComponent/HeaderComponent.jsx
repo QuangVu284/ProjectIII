@@ -21,7 +21,7 @@ import { resetUser } from "../../redux/slices/userSlice";
 import { useState } from "react";
 import Loading from "../LoadingComponent/LoadingComponent";
 import { useEffect } from "react";
-// import { searchProduct } from '../../redux/slides/productSlide';
+import { searchProduct } from "../../redux/slices/productSlice";
 
 const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
     const navigate = useNavigate();
@@ -63,7 +63,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
                 <WrapperContentPopup
                     onClick={() => handleClickNavigate("admin")}
                 >
-                    Quản lí hệ thống
+                    Quản lý hệ thống
                 </WrapperContentPopup>
             )}
             <WrapperContentPopup
@@ -95,10 +95,10 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
         setIsOpenPopup(false);
     };
 
-    // const onSearch = (e) => {
-    //   setSearch(e.target.value)
-    //   dispatch(searchProduct(e.target.value))
-    // }
+    const onSearch = (e) => {
+        setSearch(e.target.value);
+        dispatch(searchProduct(e.target.value));
+    };
 
     return (
         <div
@@ -128,7 +128,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
                             bordered={false}
                             textbutton="Tìm kiếm"
                             placeholder="Input search text"
-                            // onChange={onSearch}
+                            onChange={onSearch}
                             backgroundColorButton="#5a20c1"
                         />
                     </Col>

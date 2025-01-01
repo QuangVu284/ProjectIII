@@ -8,6 +8,7 @@ import * as UserService from "./services/UserService";
 import { useDispatch, useSelector } from "react-redux";
 import { resetUser, updateUser } from "./redux/slices/userSlice";
 import Loading from "./components/LoadingComponent/LoadingComponent";
+import FooterComponet from "./components/Footer/FooterComponet";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -89,6 +90,7 @@ const App = () => {
                                     element={
                                         <Layout>
                                             <Page />
+                                            <FooterComponet />
                                         </Layout>
                                     }
                                 />

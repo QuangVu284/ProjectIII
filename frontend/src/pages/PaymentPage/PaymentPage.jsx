@@ -234,7 +234,7 @@ const PaymentPage = () => {
     };
 
     return (
-        <div style={{ background: "#f5f5fa", with: "100%", height: "100vh" }}>
+        <div style={{ with: "100%" }}>
             <PayPalScriptProvider
                 options={{
                     "client-id":
@@ -247,6 +247,9 @@ const PaymentPage = () => {
                             height: "100%",
                             width: "1270px",
                             margin: "0 auto",
+                            padding: "10px",
+                            border: "1px solid #f0f0f0",
+                            boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
                         }}
                     >
                         <h3>Thanh toán</h3>
