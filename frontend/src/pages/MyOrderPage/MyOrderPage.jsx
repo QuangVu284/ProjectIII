@@ -135,7 +135,7 @@ const MyOrderPage = () => {
                 >
                     <h4>Đơn hàng của tôi</h4>
                     <WrapperListOrder>
-                        {dataMyOrder?.lenght > 0 ? (
+                        {dataMyOrder?.length > 0 ? (
                             dataMyOrder?.map((order) => {
                                 return (
                                     <WrapperItemOrder key={order?._id}>
@@ -266,7 +266,7 @@ const MyOrderPage = () => {
                                     color: "#242424",
                                 }}
                             >
-                                Bạn chưa có đơn hàng nào
+                                Bạn chưa có đơn hàng nào cả
                             </div>
                         )}
                     </WrapperListOrder>

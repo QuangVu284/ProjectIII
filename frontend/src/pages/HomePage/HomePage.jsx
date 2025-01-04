@@ -9,9 +9,9 @@ import {
 } from "./style";
 import slider1 from "../../assets/images/slider1.webp";
 import slider2 from "../../assets/images/slider2.webp";
-import slider3 from "../../assets/images/slider3.webp";
-import slider4 from "../../assets/images/slider4.jpg.webp";
-import slider5 from "../../assets/images/slider5.jpg.webp";
+import slider3 from "../../assets/images/slider3.png";
+import slider4 from "../../assets/images/slider4.png";
+import slider5 from "../../assets/images/slider5.webp";
 import CardComponent from "../../components/CardComponent/CardComponent";
 import NavBarComponent from "../../components/NavBarComponent/NavBarComponent";
 import { useQuery } from "@tanstack/react-query";
@@ -26,7 +26,7 @@ import { Col } from "antd";
 const HomePage = () => {
     const searchProduct = useSelector((state) => state?.product?.search);
     const searchDebounce = useDebounce(searchProduct, 500);
-    const [limit, setLimit] = useState(5);
+    const [limit, setLimit] = useState(6);
 
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -34,6 +34,22 @@ const HomePage = () => {
         stars: null,
         price: null,
         type: null,
+    });
+
+    const fetchProductAll = async (context) => {
+        const limit = context?.queryKey && context?.queryKey[1];
+        const search = context?.queryKey && context?.queryKey[2];
+        const res = await ProductService.getAllProduct(search, limit);
+
+        return res;
+    };
+
+    const { isPending, data: searchResults } = useQuery({
+        queryKey: ["products", limit, searchDebounce],
+        queryFn: fetchProductAll,
+        retry: 3,
+        retryDelay: 1000,
+        keepPreviousData: true,
     });
 
     const fetchProductType = async (type, limit, filters) => {
@@ -121,23 +137,24 @@ const HomePage = () => {
     };
 
     useEffect(() => {
-        fetchProductType(null, limit, filters);
-        const content = document.querySelector(".content-container");
-        if (content) {
-            content.style.marginBottom = "50px"; // Đặt khoảng cách cách footer
+        if (!searchDebounce) {
+            fetchProductType(null, limit, filters);
         }
-    }, [limit, filters.type]);
+    }, [limit, filters]);
+
+    useEffect(() => {
+        if (searchResults && searchDebounce) {
+            setProducts(searchResults?.data || []);
+        }
+    }, [searchResults]);
 
     const handleFilterChange = (newFilters) => {
         setFilters((prev) => ({ ...prev, ...newFilters }));
         console.log(filters);
     };
-    useEffect(() => {
-        console.log("Filters updated:", filters);
-    }, [filters]);
 
     return (
-        <Loading isLoading={loading}>
+        <Loading isLoading={isPending || loading}>
             <div
                 className="body"
                 style={{ width: "100%", backgroundColor: "#efefef" }}
@@ -204,14 +221,14 @@ const HomePage = () => {
                                 type="outline"
                                 styleButton={{
                                     border: `1px solid ${
-                                        products?.total ===
-                                        products?.data?.length
+                                        searchResults?.total ===
+                                        searchResults?.data?.length
                                             ? "#f5f5f5"
                                             : "#9255FD"
                                     }`,
                                     color: `${
-                                        products?.total ===
-                                        products?.data?.length
+                                        searchResults?.total ===
+                                        searchResults?.data?.length
                                             ? "#f5f5f5"
                                             : "#9255FD"
                                     }`,
@@ -220,20 +237,20 @@ const HomePage = () => {
                                     borderRadius: "4px",
                                 }}
                                 disabled={
-                                    products?.total ===
-                                        products?.data?.length ||
-                                    products?.totalPage === 1
+                                    searchResults?.total ===
+                                    searchResults?.data?.length
                                 }
                                 styleTextButton={{
                                     fontWeight: 500,
                                     color:
-                                        products?.total ===
-                                            products?.data?.length && "#fff",
+                                        searchResults?.total ===
+                                            searchResults?.data?.length &&
+                                        "#fff",
                                 }}
                                 onClick={
-                                    products?.total ===
-                                        products?.data?.length ||
-                                    products?.totalPage === 1
+                                    searchResults?.total ===
+                                        searchResults?.data?.length ||
+                                    searchResults?.totalPage === 1
                                         ? undefined
                                         : () => setLimit((prev) => prev + 5)
                                 }

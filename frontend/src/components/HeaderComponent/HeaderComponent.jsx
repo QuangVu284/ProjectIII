@@ -22,8 +22,9 @@ import { useState } from "react";
 import Loading from "../LoadingComponent/LoadingComponent";
 import { useEffect } from "react";
 import { searchProduct } from "../../redux/slices/productSlice";
+import logo from "../../assets/images/lgotiki.png";
 
-const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
+const HeaderComponent = () => {
     const navigate = useNavigate();
     const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
@@ -110,29 +111,28 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
                 justifyContent: "center",
             }}
         >
-            <WrapperHeader
-                style={{
-                    justifyContent:
-                        isHiddenSearch && isHiddenSearch
-                            ? "space-between"
-                            : "unset",
-                }}
-            >
+            <WrapperHeader>
                 <Col span={5}>
-                    <WrapperTextHeader to="/">SHOP</WrapperTextHeader>
+                    <WrapperTextHeader to="/">
+                        <img
+                            src={logo}
+                            alt="logo"
+                            style={{ objectFit: "cover", height: "36px" }}
+                        ></img>
+                    </WrapperTextHeader>
                 </Col>
-                {!isHiddenSearch && (
-                    <Col span={13}>
-                        <ButttonInputSearch
-                            size="large"
-                            bordered={false}
-                            textbutton="Tìm kiếm"
-                            placeholder="Input search text"
-                            onChange={onSearch}
-                            backgroundColorButton="#5a20c1"
-                        />
-                    </Col>
-                )}
+
+                <Col span={13}>
+                    <ButttonInputSearch
+                        size="large"
+                        bordered={true}
+                        textbutton="Tìm kiếm"
+                        placeholder="Search..."
+                        onChange={onSearch}
+                        backgroundColorButton="#5a20c1"
+                    />
+                </Col>
+
                 <Col
                     span={6}
                     style={{
@@ -200,26 +200,25 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
                             )}
                         </WrapperHeaderAccount>
                     </Loading>
-                    {!isHiddenCart && (
-                        <WrapperHeaderCart onClick={() => navigate("/order")}>
-                            <Badge
-                                count={
-                                    order?.orderItems?.length
-                                        ? order?.orderItems?.length
-                                        : 0
-                                }
-                                size="small"
-                                showZero
-                            >
-                                <ShoppingCartOutlined
-                                    style={{ fontSize: "30px", color: "#fff" }}
-                                />
-                            </Badge>
-                            <WrapperTextHeaderSmall>
-                                Giỏ hàng
-                            </WrapperTextHeaderSmall>
-                        </WrapperHeaderCart>
-                    )}
+
+                    <WrapperHeaderCart onClick={() => navigate("/order")}>
+                        <Badge
+                            count={
+                                order?.orderItems?.length
+                                    ? order?.orderItems?.length
+                                    : 0
+                            }
+                            size="small"
+                            showZero
+                        >
+                            <ShoppingCartOutlined
+                                style={{ fontSize: "30px", color: "#fff" }}
+                            />
+                        </Badge>
+                        <WrapperTextHeaderSmall>
+                            Giỏ hàng
+                        </WrapperTextHeaderSmall>
+                    </WrapperHeaderCart>
                 </Col>
             </WrapperHeader>
         </div>
