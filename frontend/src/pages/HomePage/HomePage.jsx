@@ -26,7 +26,7 @@ import { Col } from "antd";
 const HomePage = () => {
     const searchProduct = useSelector((state) => state?.product?.search);
     const searchDebounce = useDebounce(searchProduct, 500);
-    const [limit, setLimit] = useState(6);
+    const [limit, setLimit] = useState(5);
 
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -122,10 +122,6 @@ const HomePage = () => {
                         return price >= 2000000 && price < 5000000;
                     });
                 }
-                // combinedProducts = combinedProducts.filter((product) => {
-                //     const price = product.price - (product.price * product.discount) / 100;
-                //     return price >= filters.price[0] && price <= filters.price[1];
-                // });
             }
 
             setProducts(combinedProducts);
@@ -157,7 +153,10 @@ const HomePage = () => {
         <Loading isLoading={isPending || loading}>
             <div
                 className="body"
-                style={{ width: "100%", backgroundColor: "#efefef" }}
+                style={{
+                    width: "100%",
+                    backgroundColor: "#efefef",
+                }}
             >
                 <div
                     id="container"
@@ -175,6 +174,10 @@ const HomePage = () => {
                     <Col
                         span={20}
                         style={{
+                            borderRadius: "6px",
+                            backgroundColor: "#fff",
+                            marginTop: "20px",
+                            marginBottom: "20px",
                             display: "flex",
                             flexDirection: "column",
                             justifyContent: "space-between",
@@ -213,7 +216,8 @@ const HomePage = () => {
                                 width: "100%",
                                 display: "flex",
                                 justifyContent: "center",
-                                marginTop: "10px",
+                                marginTop: "20px",
+                                marginBottom: "20px",
                             }}
                         >
                             <WrapperButtonMore
@@ -224,13 +228,13 @@ const HomePage = () => {
                                         searchResults?.total ===
                                         searchResults?.data?.length
                                             ? "#f5f5f5"
-                                            : "#9255FD"
+                                            : "var(--primary-color)"
                                     }`,
                                     color: `${
                                         searchResults?.total ===
                                         searchResults?.data?.length
                                             ? "#f5f5f5"
-                                            : "#9255FD"
+                                            : "var(--primary-color)"
                                     }`,
                                     width: "240px",
                                     height: "38px",

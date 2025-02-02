@@ -48,14 +48,10 @@ const FooterComponet = () => {
                             <span>Dây lưng</span>
                             <span>Ví da</span>
                             <span>Tú xách</span>
-                            <span>Dw</span>
-                            <span>Movado</span>
-                            <span>Lorem</span>
-                            <span>Ipsum</span>
-                            <span>Dolor</span>
-                            <span>Ví da</span>
-                            <span>Dw</span>
-                            <span>Movado</span>
+                            <span>Đồng hồ</span>
+                            <span>Giày</span>
+                            <span>Điện thoại</span>
+                            <span>Laptop</span>
                         </div>
                     </div>
 

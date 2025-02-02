@@ -22,7 +22,7 @@ const SliderComponent = ({ arrImages }) => {
                         alt="slider"
                         preview={false}
                         width="1270px"
-                        height="360px"
+                        height="300px"
                     />
                 );
             })}

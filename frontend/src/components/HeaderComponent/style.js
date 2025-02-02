@@ -45,7 +45,7 @@ export const WrapperHeaderCart = styled.div`
 
 export const WrapperTextHeaderSmall = styled.span`
     font-size: 12px;
-    color: #fff;
+    color: rgb(128, 128, 137);
     margin-left: 5px;
     white-space: nowrap;
 `;

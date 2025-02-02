@@ -140,7 +140,7 @@ const SignInPage = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                background: "rgba(0, 0, 0, 0.23)",
+                background: "rgba(185, 172, 172, 0.23)",
                 height: "100vh",
             }}
         >

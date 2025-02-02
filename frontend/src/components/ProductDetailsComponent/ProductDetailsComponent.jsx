@@ -91,17 +91,6 @@ const ProductDetailsComponent = ({ idProduct }) => {
         if (!user?.id) {
             navigate("/sign-in", { state: location?.pathname });
         } else {
-            // {
-            //     name: { type: String, required: true },
-            //     amount: { type: Number, required: true },
-            //     image: { type: String, required: true },
-            //     price: { type: Number, required: true },
-            //     product: {
-            //         type: mongoose.Schema.Types.ObjectId,
-            //         ref: 'Product',
-            //         required: true,
-            //     },
-            // },
             const orderRedux = order?.orderItems?.find(
                 (item) => item.product === productDetails?._id
             );
@@ -149,59 +138,6 @@ const ProductDetailsComponent = ({ idProduct }) => {
                         alt="image prodcut"
                         preview={false}
                     />
-                    <Row
-                        style={{
-                            paddingTop: "10px",
-                            justifyContent: "space-between",
-                        }}
-                    >
-                        <WrapperStyleColImage span={4} sty>
-                            <WrapperStyleImageSmall
-                                src={imageProductSmall}
-                                alt="image small"
-                                preview={false}
-                            />
-                        </WrapperStyleColImage>
-                        <WrapperStyleColImage span={4}>
-                            <WrapperStyleImageSmall
-                                src={imageProductSmall}
-                                alt="image small"
-                                preview={false}
-                            />
-                        </WrapperStyleColImage>
-
-                        <WrapperStyleColImage span={4}>
-                            <WrapperStyleImageSmall
-                                src={imageProductSmall}
-                                alt="image small"
-                                preview={false}
-                            />
-                        </WrapperStyleColImage>
-
-                        <WrapperStyleColImage span={4}>
-                            <WrapperStyleImageSmall
-                                src={imageProductSmall}
-                                alt="image small"
-                                preview={false}
-                            />
-                        </WrapperStyleColImage>
-
-                        <WrapperStyleColImage span={4}>
-                            <WrapperStyleImageSmall
-                                src={imageProductSmall}
-                                alt="image small"
-                                preview={false}
-                            />
-                        </WrapperStyleColImage>
-
-                        <WrapperStyleColImage span={4}>
-                            <WrapperStyleImageSmall
-                                src={imageProductSmall}
-                                alt="image small"
-                                preview={false}
-                            />
-                        </WrapperStyleColImage>
-                    </Row>
                 </Col>
                 <Col span={14} style={{ paddingLeft: "10px" }}>
                     <WrapperStyleNameProduct>

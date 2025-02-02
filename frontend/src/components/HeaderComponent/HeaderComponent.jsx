@@ -31,7 +31,6 @@ const HeaderComponent = () => {
     const [userName, setUserName] = useState("");
     const [userAvatar, setUserAvatar] = useState("");
     const [search, setSearch] = useState("");
-    const [isOpenPopup, setIsOpenPopup] = useState(false);
     const order = useSelector((state) => state.order);
     const [loading, setLoading] = useState(false);
     const handleNavigateLogin = () => {
@@ -93,7 +92,6 @@ const HeaderComponent = () => {
         } else {
             handleLogout();
         }
-        setIsOpenPopup(false);
     };
 
     const onSearch = (e) => {
@@ -156,25 +154,24 @@ const HeaderComponent = () => {
                                     }}
                                 />
                             ) : (
-                                <UserOutlined style={{ fontSize: "30px" }} />
+                                <UserOutlined
+                                    style={{
+                                        color: "rgb(128, 128, 137)",
+                                        fontSize: "30px",
+                                    }}
+                                />
                             )}
                             {user?.access_token ? (
                                 <>
-                                    <Popover
-                                        content={content}
-                                        trigger="click"
-                                        open={isOpenPopup}
-                                    >
+                                    <Popover content={content} trigger="hover">
                                         <div
                                             style={{
                                                 cursor: "pointer",
                                                 maxWidth: 100,
                                                 overflow: "hidden",
                                                 textOverflow: "ellipsis",
+                                                color: "rgb(128, 128, 137)",
                                             }}
-                                            onClick={() =>
-                                                setIsOpenPopup((prev) => !prev)
-                                            }
                                         >
                                             {userName?.length
                                                 ? userName
@@ -194,7 +191,12 @@ const HeaderComponent = () => {
                                         <WrapperTextHeaderSmall>
                                             Tài khoản
                                         </WrapperTextHeaderSmall>
-                                        <CaretDownOutlined />
+                                        <CaretDownOutlined
+                                            style={{
+                                                color: "rgb(128, 128, 137)",
+                                                textAlign: "center",
+                                            }}
+                                        />
                                     </div>
                                 </div>
                             )}
@@ -212,7 +214,10 @@ const HeaderComponent = () => {
                             showZero
                         >
                             <ShoppingCartOutlined
-                                style={{ fontSize: "30px", color: "#fff" }}
+                                style={{
+                                    fontSize: "30px",
+                                    color: "#3397f3",
+                                }}
                             />
                         </Badge>
                         <WrapperTextHeaderSmall>
