@@ -201,7 +201,7 @@ const ProfilePage = () => {
                             height: "30px",
                             width: "fit-content",
                             borderRadius: "4px",
-                            padding: "2px 40px 20px",
+                            padding: "12px 26px",
                             background: "var(--primary-color)",
                         }}
                         textbutton={"Cập nhật"}

@@ -252,7 +252,15 @@ const PaymentPage = () => {
                             boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
                         }}
                     >
-                        <h3>Thanh toán</h3>
+                        <h2
+                            style={{
+                                fontWeight: "bold",
+
+                                color: "var(--primary-color)",
+                            }}
+                        >
+                            Thanh toán
+                        </h2>
                         <div
                             style={{
                                 display: "flex",

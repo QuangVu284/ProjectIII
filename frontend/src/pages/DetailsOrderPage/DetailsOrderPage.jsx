@@ -62,7 +62,17 @@ const DetailsOrderPage = () => {
                         height: "1270px",
                     }}
                 >
-                    <h4>Chi tiết đơn hàng</h4>
+                    <p
+                        style={{
+                            textAlign: "center",
+                            fontSize: "24px",
+                            fontWeight: "bold",
+                            color: "var(--primary-color)",
+                            padding: "20px 0",
+                        }}
+                    >
+                        Chi tiết đơn hàng
+                    </p>
                     <WrapperHeaderUser>
                         <WrapperInfoUser>
                             <WrapperLabel>Địa chỉ người nhận</WrapperLabel>

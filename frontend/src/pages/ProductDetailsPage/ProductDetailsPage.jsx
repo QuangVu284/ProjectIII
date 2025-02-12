@@ -15,7 +15,7 @@ const ProductDetailsPage = () => {
             }}
         >
             <div style={{ width: "1270px", height: "100%", margin: "0 auto" }}>
-                <h5>
+                <p>
                     <span
                         style={{ cursor: "pointer", fontWeight: "bold" }}
                         onClick={() => {
@@ -26,7 +26,7 @@ const ProductDetailsPage = () => {
                     </span>
                     {" > "}
                     Chi tiết sản phẩm
-                </h5>
+                </p>
                 <ProductDetailsComponent idProduct={id} />
             </div>
         </div>

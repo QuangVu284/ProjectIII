@@ -27,7 +27,16 @@ const OrderSuccessPage = () => {
                         margin: "0 auto",
                     }}
                 >
-                    <h3>Đơn hàng đặt thành công</h3>
+                    <h2
+                        style={{
+                            fontWeight: "bold",
+                            paddingTop: "20px",
+                            color: "var(--primary-color)",
+                            textAlign: "center",
+                        }}
+                    >
+                        Đơn hàng đặt thành công
+                    </h2>
                     <div style={{ display: "flex", justifyContent: "center" }}>
                         <WrapperContainer>
                             <WrapperInfo>
@@ -128,9 +137,12 @@ const OrderSuccessPage = () => {
                                     );
                                 })}
                             </WrapperItemOrderInfo>
-                            <div>
+                            <div style={{ marginTop: "20px" }}>
                                 <span
-                                    style={{ fontSize: "16px", color: "red" }}
+                                    style={{
+                                        fontSize: "16px",
+                                        color: "red",
+                                    }}
                                 >
                                     Tổng tiền:{" "}
                                     {convertPrice(state?.totalPriceMemo)}

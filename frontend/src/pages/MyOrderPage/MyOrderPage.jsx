@@ -130,10 +130,20 @@ const MyOrderPage = () => {
                     style={{
                         height: "100%",
                         width: "1270px",
-                        margin: "0 auto",
+                        margin: "0px auto",
+                        padding: "20px 0px",
                     }}
                 >
-                    <h4>Đơn hàng của tôi</h4>
+                    <p
+                        style={{
+                            textAlign: "center",
+                            fontSize: "24px",
+                            fontWeight: "bold",
+                            color: "var(--primary-color)",
+                        }}
+                    >
+                        Đơn hàng của tôi
+                    </p>
                     <WrapperListOrder>
                         {dataMyOrder?.length > 0 ? (
                             dataMyOrder?.map((order) => {
@@ -263,7 +273,7 @@ const MyOrderPage = () => {
                                     height: "100%",
                                     width: "100%",
                                     fontSize: "20px",
-                                    color: "#242424",
+                                    color: "rgb(255, 66, 78)",
                                 }}
                             >
                                 Bạn chưa có đơn hàng nào cả
